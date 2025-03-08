@@ -45,6 +45,7 @@ import { RetrievalNode } from './node/retrieval-node';
 import { RewriteNode } from './node/rewrite-node';
 import { SwitchNode } from './node/switch-node';
 import { TemplateNode } from './node/template-node';
+import { PersoTemplateNode } from '@/pages/flow/canvas/node/perso-template-node';
 
 const nodeTypes: NodeTypes = {
   ragNode: RagNode,
@@ -61,6 +62,7 @@ const nodeTypes: NodeTypes = {
   keywordNode: KeywordNode,
   invokeNode: InvokeNode,
   templateNode: TemplateNode,
+  persoTemplateNode: PersoTemplateNode,
   emailNode: EmailNode,
   group: IterationNode,
   iterationStartNode: IterationStartNode,

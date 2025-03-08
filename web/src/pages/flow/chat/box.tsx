@@ -13,6 +13,7 @@ import { useFetchFlow } from '@/hooks/flow-hooks';
 import { useFetchUserInfo } from '@/hooks/user-setting-hooks';
 import { buildMessageUuidWithRole } from '@/utils/chat';
 import styles from './index.less';
+import {useEffect, useRef} from "react";
 
 const FlowChatBox = () => {
   const {
@@ -31,6 +32,72 @@ const FlowChatBox = () => {
   useGetFileIcon();
   const { data: userInfo } = useFetchUserInfo();
   const { data: canvasInfo } = useFetchFlow();
+
+
+
+
+  const inputRef = useRef<any>(null); // Référence pour l'élément Input
+  const buttonRef = useRef<HTMLButtonElement>(null); // Référence pour le bouton d'envoi
+
+  const handleButtonClick = (param: string) => {
+
+
+    if (inputRef.current) {
+      // Accéder à l'élément input natif
+      const nativeInput = inputRef.current.input;
+
+      // Créer un événement `input`
+      const event = new Event('input', { bubbles: true });
+
+      // Utiliser la fonction `onInputChange` de React
+      handleInputChange({ target: { value: param } } as any);
+
+      // Déclencher `handlePressEnter` après un petit délai
+      setTimeout(() => {
+        buttonRef.current.click();
+        // handlePressEnter();
+      }, 300);
+    }
+  };
+
+  useEffect(() => {
+    const handleClick = (event: Event) => {
+      const button = event.target as HTMLElement;
+      const param = button.getAttribute('data-param');
+
+      if (param) {
+        handleButtonClick(param);
+      }
+    };
+
+    const observeButtons = () => {
+      const buttons = document.querySelectorAll('[data-param]');
+      buttons.forEach((button) => {
+        button.removeEventListener('click', handleClick); // Nettoyer au cas où
+        button.addEventListener('click', handleClick);
+      });
+    };
+
+    // Observer les changements dans le DOM
+    const observer = new MutationObserver(() => {
+      observeButtons();
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Ajouter les événements initiaux
+    observeButtons();
+
+    return () => {
+      observer.disconnect(); // Arrêter l'observation
+      document.querySelectorAll('[data-param]').forEach((button) => {
+        button.removeEventListener('click', handleClick);
+      });
+    };
+  }, []);
+
+
+
 
   return (
     <>
@@ -75,6 +142,9 @@ const FlowChatBox = () => {
           conversationId=""
           onPressEnter={handlePressEnter}
           onInputChange={handleInputChange}
+
+          inputRef={inputRef}
+          buttonRef={buttonRef}
         />
       </Flex>
       <PdfDrawer

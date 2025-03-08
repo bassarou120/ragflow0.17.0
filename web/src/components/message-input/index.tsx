@@ -40,6 +40,7 @@ import {
 import FileIcon from '../file-icon';
 import styles from './index.less';
 
+
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 const { Text } = Typography;
 
@@ -72,6 +73,9 @@ interface IProps {
   isShared?: boolean;
   showUploadIcon?: boolean;
   createConversationBeforeUploadDocument?(message: string): Promise<any>;
+
+  inputRef: any ;
+  buttonRef: any ;
 }
 
 const getBase64 = (file: FileType): Promise<string> =>
@@ -94,7 +98,11 @@ const MessageInput = ({
   showUploadIcon = true,
   createConversationBeforeUploadDocument,
   uploadMethod = 'upload_and_parse',
-}: IProps) => {
+
+   inputRef,
+  buttonRef ,
+
+                      }: IProps) => {
   const { t } = useTranslate('chat');
   const { removeDocument } = useRemoveNextDocument();
   const { deleteDocument } = useDeleteDocument();
@@ -221,6 +229,11 @@ const MessageInput = ({
     conversationIdRef.current = conversationId;
   }, [conversationId, setFileList]);
 
+
+
+
+
+
   return (
     <Flex gap={1} vertical className={styles.messageInputWrapper}>
       <TextArea
@@ -240,6 +253,9 @@ const MessageInput = ({
         onChange={onInputChange}
         onCompositionStart={handleCompositionStart}
         onCompositionEnd={handleCompositionEnd}
+        ref={inputRef}
+
+
       />
       <Divider style={{ margin: '5px 30px 10px 0px' }} />
       <Flex justify="space-between" align="center">
@@ -351,6 +367,8 @@ const MessageInput = ({
             onClick={handlePressEnter}
             loading={sendLoading}
             disabled={sendDisabled || isUploadingFile || sendLoading}
+            ref={buttonRef} // Ajouter la référence au bouton
+
           >
             <SendOutlined />
           </Button>

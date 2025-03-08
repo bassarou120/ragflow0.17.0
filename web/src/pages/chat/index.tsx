@@ -355,6 +355,7 @@ const Chat = () => {
           </Flex>
         </Flex>
       </Flex>
+
       <Divider type={'vertical'} className={styles.divider}></Divider>
       <ChatContainer controller={controller}></ChatContainer>
       {dialogEditVisible && (

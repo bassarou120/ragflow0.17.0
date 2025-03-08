@@ -52,6 +52,7 @@ import { FlowFormContext } from '../context';
 import { RunTooltip } from '../flow-tooltip';
 import IterationForm from '../form/iteration-from';
 import styles from './index.less';
+import PersoTemplateForm from "@/pages/flow/form/perso-template-form";
 
 interface IProps {
   node?: RAGFlowNodeType;
@@ -94,6 +95,8 @@ const FormMap = {
   [Operator.Concentrator]: () => <></>,
   [Operator.Note]: () => <></>,
   [Operator.Template]: TemplateForm,
+
+  [Operator.PersoTemplate]: PersoTemplateForm,
   [Operator.Email]: EmailForm,
   [Operator.Iteration]: IterationForm,
   [Operator.IterationStart]: () => <></>,

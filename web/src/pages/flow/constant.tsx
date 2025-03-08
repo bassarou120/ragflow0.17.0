@@ -27,6 +27,7 @@ import { ReactComponent as TemplateIcon } from '@/assets/svg/template.svg';
 import { ReactComponent as TuShareIcon } from '@/assets/svg/tushare.svg';
 import { ReactComponent as WenCaiIcon } from '@/assets/svg/wencai.svg';
 import { ReactComponent as YahooFinanceIcon } from '@/assets/svg/yahoo-finance.svg';
+import { ReactComponent as PersoTemplateIcon } from '@/assets/svg/api.svg';
 
 // 邮件功能
 
@@ -100,6 +101,7 @@ export enum Operator {
   Crawler = 'Crawler',
   Invoke = 'Invoke',
   Template = 'Template',
+  PersoTemplate = 'PersoTemplate',
   Email = 'Email',
   Iteration = 'Iteration',
   IterationStart = 'IterationItem',
@@ -143,6 +145,8 @@ export const operatorIconMap = {
   [Operator.Crawler]: CrawlerIcon,
   [Operator.Invoke]: InvokeIcon,
   [Operator.Template]: TemplateIcon,
+  [Operator.PersoTemplate]: PersoTemplateIcon,
+
   [Operator.Email]: EmailIcon,
   [Operator.Iteration]: IterationCcw,
   [Operator.IterationStart]: CirclePower,
@@ -281,6 +285,9 @@ export const operatorMap: Record<
   [Operator.Template]: {
     backgroundColor: '#dee0e2',
   },
+  [Operator.PersoTemplate]: {
+    backgroundColor: '#dee0e2',
+  },
   [Operator.Email]: { backgroundColor: '#e6f7ff' },
   [Operator.Iteration]: { backgroundColor: '#e6f7ff' },
   [Operator.IterationStart]: { backgroundColor: '#e6f7ff' },
@@ -317,6 +324,9 @@ export const componentMenuList = [
   },
   {
     name: Operator.Template,
+  },
+  {
+    name: Operator.PersoTemplate,
   },
   {
     name: Operator.Iteration,
@@ -709,6 +719,7 @@ export const RestrictedUpstreamMap = {
   [Operator.Note]: [],
   [Operator.Invoke]: [Operator.Begin],
   [Operator.Template]: [Operator.Begin, Operator.Relevant],
+  [Operator.PersoTemplate]: [Operator.Begin, Operator.Relevant],
   [Operator.Email]: [Operator.Begin],
   [Operator.Iteration]: [Operator.Begin],
   [Operator.IterationStart]: [Operator.Begin],
@@ -748,6 +759,7 @@ export const NodeMap = {
   [Operator.Crawler]: 'ragNode',
   [Operator.Invoke]: 'invokeNode',
   [Operator.Template]: 'templateNode',
+  [Operator.PersoTemplate]: 'persoTemplateNode',
   [Operator.Email]: 'emailNode',
   [Operator.Iteration]: 'group',
   [Operator.IterationStart]: 'iterationStartNode',

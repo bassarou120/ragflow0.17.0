@@ -2,6 +2,7 @@ import i18n from '@/locales/config';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { App, ConfigProvider, ConfigProviderProps, theme } from 'antd';
+import frFR from 'antd/locale/fr_FR';
 import pt_BR from 'antd/lib/locale/pt_BR';
 import enUS from 'antd/locale/en_US';
 import vi_VN from 'antd/locale/vi_VN';
@@ -27,6 +28,7 @@ dayjs.extend(weekOfYear);
 dayjs.extend(weekYear);
 
 const AntLanguageMap = {
+    fr: frFR,
   en: enUS,
   zh: zhCN,
   'zh-TRADITIONAL': zh_HK,
@@ -40,9 +42,8 @@ type Locale = ConfigProviderProps['locale'];
 
 function Root({ children }: React.PropsWithChildren) {
   const { theme: themeragflow } = useTheme();
-  const getLocale = (lng: string) =>
-    AntLanguageMap[lng as keyof typeof AntLanguageMap] ?? enUS;
-
+  // const getLocale = (lng: string) =>AntLanguageMap[lng as keyof typeof AntLanguageMap] ?? enUS;
+    const getLocale = (lng: string) => AntLanguageMap[lng as keyof typeof AntLanguageMap] ?? frFR;
   const [locale, setLocal] = useState<Locale>(getLocale(storage.getLanguage()));
 
   i18n.on('languageChanged', function (lng: string) {

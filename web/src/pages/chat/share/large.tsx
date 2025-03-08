@@ -4,7 +4,7 @@ import { useClickDrawer } from '@/components/pdf-drawer/hooks';
 import { MessageType, SharedFrom } from '@/constants/chat';
 import { useSendButtonDisabled } from '@/pages/chat/hooks';
 import { Flex, Spin } from 'antd';
-import React, { forwardRef, useMemo } from 'react';
+import React, {forwardRef, useEffect, useMemo, useRef} from 'react';
 import {
   useGetSharedChatSearchParams,
   useSendSharedMessage,
@@ -56,6 +56,71 @@ const ChatContainer = () => {
     return <div>empty</div>;
   }
 
+
+  const inputRef = useRef<any>(null); // Référence pour l'élément Input
+  const buttonRef = useRef<HTMLButtonElement>(null); // Référence pour le bouton d'envoi
+
+  const handleButtonClick = (param: string) => {
+
+
+    if (inputRef.current) {
+      // Accéder à l'élément input natif
+      const nativeInput = inputRef.current.input;
+
+      // Créer un événement `input`
+      const event = new Event('input', { bubbles: true });
+
+      // Utiliser la fonction `onInputChange` de React
+      handleInputChange({ target: { value: param } } as any);
+
+      // Déclencher `handlePressEnter` après un petit délai
+      setTimeout(() => {
+        buttonRef.current.click();
+        // handlePressEnter();
+      }, 300);
+    }
+  };
+
+  useEffect(() => {
+    const handleClick = (event: Event) => {
+      const button = event.target as HTMLElement;
+      const param = button.getAttribute('data-param');
+
+      if (param) {
+        handleButtonClick(param);
+      }
+    };
+
+    const observeButtons = () => {
+      const buttons = document.querySelectorAll('[data-param]');
+      buttons.forEach((button) => {
+        button.removeEventListener('click', handleClick); // Nettoyer au cas où
+        button.addEventListener('click', handleClick);
+      });
+    };
+
+    // Observer les changements dans le DOM
+    const observer = new MutationObserver(() => {
+      observeButtons();
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Ajouter les événements initiaux
+    observeButtons();
+
+    return () => {
+      observer.disconnect(); // Arrêter l'observation
+      document.querySelectorAll('[data-param]').forEach((button) => {
+        button.removeEventListener('click', handleClick);
+      });
+    };
+  }, []);
+
+
+
+
+
   return (
     <>
       <Flex flex={1} className={styles.chatContainer} vertical>
@@ -92,6 +157,7 @@ const ChatContainer = () => {
             </Spin>
           </div>
           <div ref={ref} />
+
         </Flex>
 
         <MessageInput
@@ -105,6 +171,9 @@ const ChatContainer = () => {
           sendLoading={sendLoading}
           uploadMethod="external_upload_and_parse"
           showUploadIcon={false}
+
+          inputRef={inputRef}
+          buttonRef={buttonRef}
         ></MessageInput>
       </Flex>
       {visible && (

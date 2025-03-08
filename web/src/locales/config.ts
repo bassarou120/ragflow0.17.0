@@ -3,6 +3,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
 import { LanguageAbbreviation } from '@/constants/common';
+import translation_fr from './fr';
 import translation_en from './en';
 import translation_es from './es';
 import translation_id from './id';
@@ -14,6 +15,7 @@ import translation_zh from './zh';
 import translation_zh_traditional from './zh-traditional';
 
 const resources = {
+  [LanguageAbbreviation.Fr]: translation_fr,
   [LanguageAbbreviation.En]: translation_en,
   [LanguageAbbreviation.Zh]: translation_zh,
   [LanguageAbbreviation.ZhTraditional]: translation_zh_traditional,

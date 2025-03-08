@@ -13,7 +13,7 @@ import {
   TabsProps,
   Typography,
 } from 'antd';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 
 import { useIsDarkTheme } from '@/components/theme-provider';
 import {
@@ -22,6 +22,10 @@ import {
 } from '@/constants/common';
 import { cn } from '@/lib/utils';
 import styles from './index.less';
+
+
+import QRCode from 'react-qr-code';
+import { shortenUrl } from '@/services/shortener';
 
 const { Paragraph, Link } = Typography;
 
@@ -75,6 +79,38 @@ const EmbedModal = ({
 ~~~
   `;
 
+  // const qrData = iframeSrc; // URL pour le QR code
+  const qrData = `${location.origin}/chat/share?shared_id=${token}&from=${form}&auth=${beta}`; // URL pour le QR code
+  // const resultShotqrData =  shortenUrl(qrData);
+
+  const [shortenedQrData, setShortenedQrData] = useState('---');
+  const [ s, setS] = useState('---');
+
+
+  useEffect(() => {
+    const fetchShortenedUrl = async () => {
+      try {
+        const myiframeSrc = generateIframeSrc()
+        // const result = await shortenUrl(iframeSrc,);
+       // const result = await shortenUrl(`${location.origin}/chat/share?shared_id=${token}&from=${form}&auth=${beta}`,);
+       const result = await shortenUrl(myiframeSrc,);
+        setShortenedQrData(result);
+
+
+
+
+        setS( myiframeSrc)
+
+
+      } catch (error) {
+        console.error('Error shortening the URL:', error);
+      }
+    };
+    fetchShortenedUrl();
+  }, [qrData,s]);
+
+
+
   const items: TabsProps['items'] = [
     {
       key: '1',
@@ -117,11 +153,41 @@ const EmbedModal = ({
     },
     {
       key: '2',
+      label: t('qrCodeTitle'), // Nouveau titre pour le QR code
+      children: (
+          <div style={{ textAlign: 'center', marginTop: '20px' }}>
+            {/*<QRCode value={qrData} size={200} />*/}
+
+            {/*<br/>*/}
+
+            {/*<QRCode value={resultShotqrData} size={200} />*/}
+
+            <h6>
+              {shortenedQrData && <QRCode value={shortenedQrData} size={200} />}
+            </h6>
+            <br />
+
+            <h4><a href={shortenedQrData}   target='_blank'> {shortenedQrData} </a> </h4>
+
+
+
+
+
+
+            {/*<Paragraph className={styles.qrInfo}>*/}
+            <Paragraph className={styles.qrInfo}>
+              {t('scanQrCode')} {/* Message pour guider l'utilisateur */}
+            </Paragraph>
+          </div>
+      ),
+    },
+    {
+      key: '3',
       label: t('partialTitle'),
       children: t('comingSoon'),
     },
     {
-      key: '3',
+      key: '4',
       label: t('extensionTitle'),
       children: t('comingSoon'),
     },

@@ -51,6 +51,7 @@ export const LanguageList = [
 ];
 
 export const LanguageMap = {
+  French:'French',
   English: 'English',
   Chinese: '简体中文',
   'Traditional Chinese': '繁體中文',
@@ -62,6 +63,7 @@ export const LanguageMap = {
 };
 
 export enum LanguageAbbreviation {
+  Fr = 'fr',
   En = 'en',
   Zh = 'zh',
   ZhTraditional = 'zh-TRADITIONAL',
@@ -73,6 +75,7 @@ export enum LanguageAbbreviation {
 }
 
 export const LanguageAbbreviationMap = {
+  [LanguageAbbreviation.Fr]: 'French',
   [LanguageAbbreviation.En]: 'English',
   [LanguageAbbreviation.Zh]: '简体中文',
   [LanguageAbbreviation.ZhTraditional]: '繁體中文',
@@ -84,6 +87,7 @@ export const LanguageAbbreviationMap = {
 };
 
 export const LanguageTranslationMap = {
+  French:'fr',
   English: 'en',
   Chinese: 'zh',
   'Traditional Chinese': 'zh-TRADITIONAL',

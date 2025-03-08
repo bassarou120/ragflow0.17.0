@@ -89,6 +89,8 @@ const ChatContainer = ({ controller }: IProps) => {
           </div>
           <div ref={ref} />
         </Flex>
+
+
         <MessageInput
           disabled={disabled}
           sendDisabled={sendDisabled}
@@ -101,6 +103,8 @@ const ChatContainer = ({ controller }: IProps) => {
             createConversationBeforeUploadDocument
           }
         ></MessageInput>
+
+
       </Flex>
       <PdfDrawer
         visible={visible}

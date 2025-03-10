@@ -8,6 +8,12 @@ services:
         condition: service_healthy
     image: ${RAGFLOW_IMAGE}
     container_name: ragflow-server
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.monapp.rule=Host(`bot.bj`)"
+      - "traefik.http.routers.monapp.entrypoints=websecure"
+      - "traefik.http.routers.monapp.tls.certresolver=letsencrypt"
+
     ports:
       - ${SVR_HTTP_PORT}:9380
       - 8083:80
@@ -24,11 +30,20 @@ services:
       - MACOS=${MACOS}
     networks:
       - ragflow
+      - web
+
     restart: on-failure
     # https://docs.docker.com/engine/daemon/prometheus/#create-a-prometheus-configuration
     # If you're using Docker Desktop, the --add-host flag is optional. This flag makes sure that the host's internal IP gets exposed to the Prometheus container.
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+networks:
+  web:
+    external: true
+
+
+
   # executor:
   #   depends_on:
   #     mysql:

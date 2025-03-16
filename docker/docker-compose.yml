@@ -10,7 +10,7 @@ services:
     container_name: ragflow-server
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.monapp.rule=Host(`bot.bj`)"
+      - "traefik.http.routers.monapp.rule=Host(`app.bot.bj`)"
       - "traefik.http.routers.monapp.entrypoints=websecure"
       - "traefik.http.routers.monapp.tls.certresolver=letsencrypt"
       - "traefik.port=80"
